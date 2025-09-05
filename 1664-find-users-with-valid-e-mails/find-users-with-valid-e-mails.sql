@@ -1,7 +1,13 @@
 # Write your MySQL query statement below
+/*
 SELECT *
 FROM users
 WHERE mail COLLATE utf8mb3_bin REGEXP '^[a-zA-Z][a-zA-Z0-9._-]*@leetcode\\.com$';
+*/
+
+SELECT *
+FROM users
+WHERE REGEXP_LIKE(mail, '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode\\.com$','c');
 
 -- WHERE mail COLLATE utf8mb4_bin REGEXP '^[a-zA-Z][a-zA-Z0-9._-]*@leetcode\\.com$';
 -- COLLATION 'utf8mb4_bin' is not valid for CHARACTER SET 'utf8mb3'
