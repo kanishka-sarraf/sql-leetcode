@@ -10,6 +10,7 @@ order by user_id asc
 failing for: alice@examplecom  
 */
 
+/*
 SELECT *
 FROM users
 WHERE 
@@ -18,3 +19,8 @@ WHERE
     AND SUBSTRING_INDEX(SUBSTRING_INDEX(email, '@', -1), '.', 1) REGEXP '^[a-zA-Z]+$'
     AND RIGHT(email, 4) = '.com'
 ORDER BY user_id ASC;
+*/
+
+select *
+from users
+where email regexp '^[a-zA-Z0-9_]*@[a-zA-Z]*\\.com$';
