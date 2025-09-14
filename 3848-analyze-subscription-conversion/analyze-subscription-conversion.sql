@@ -1,4 +1,6 @@
 # Write your MySQL query statement below
+/*
+-- solution1
 select t1.user_id, t2.trial_avg_duration, t1.paid_avg_duration 
 from (
     select user_id, round(avg(activity_duration),2) as paid_avg_duration
@@ -13,6 +15,20 @@ join (
     group by user_id
 ) t2 on t1.user_id = t2.user_id
 order by t1.user_id;
+*/
+
+
+
+SELECT
+    user_id,
+    ROUND(AVG(CASE WHEN activity_type = 'free_trial' THEN activity_duration ELSE NULL END), 2) AS trial_avg_duration,
+    ROUND(AVG(CASE WHEN activity_type = 'paid' THEN activity_duration ELSE NULL END), 2) AS paid_avg_duration
+FROM UserActivity
+GROUP BY user_id
+having paid_avg_duration is not null
+order by user_id;
+
+
 
 
 /*
