@@ -1,4 +1,6 @@
 # Write your MySQL query statement below
+/*
+-- solution1
 with refund_details as (
     select 
         customer_id, 
@@ -17,6 +19,29 @@ where purchase_transactions>=3
         and datediff(latest_transaction_date,first_transaction_date)>=30
         and (refund_transactions / total_transactions) < 0.2
 order by customer_id asc;
+*/
+
+SELECT 
+    customer_id
+FROM (
+    SELECT 
+        customer_id,
+        MAX(transaction_date) AS latest_transaction_date,
+        MIN(transaction_date) AS first_transaction_date,
+        SUM(transaction_type = 'purchase') AS purchase_transactions,
+        SUM(transaction_type = 'refund') AS refund_transactions,
+        COUNT(*) AS total_transactions
+    FROM customer_transactions
+    GROUP BY customer_id
+) AS refund_summary
+WHERE 
+    purchase_transactions >= 3
+    AND DATEDIFF(latest_transaction_date, first_transaction_date) >= 30
+    AND refund_transactions < total_transactions * 0.2
+ORDER BY customer_id;
+
+
+
 
 /*
 SELECT customer_id
